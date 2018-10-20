@@ -72,9 +72,7 @@ new_slot(const char *args) {
         while(isspace(*label)) label++;
         char *pos;
         if((pos=strchr(label, '\n')) != NULL) *pos = '\0';
-        printf("====== label /%s/\n", label);
     }
-
     ret = parse_argv_string(args, &pslot->ssh_argc, (const char ***) &pslot->ssh_argv);
     if (ret != 0 || pslot->ssh_argc == 0) {
         eprintf("failed to parse ssh options \"%s\" into args array", args);
