@@ -20,6 +20,7 @@ stdio_pipe {
 struct
 slot {
     char host[1024];
+    char label[32];
     int ssh_argc;
     char **ssh_argv;
     int pid;

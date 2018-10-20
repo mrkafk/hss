@@ -63,6 +63,18 @@ new_slot(const char *args) {
         eprintf("failed to alloc slot: %s\n", strerror(errno));
         exit(1);
     }
+    char *label = NULL;
+    const char* delim = "#";
+    label = strpbrk(args, delim);
+    if (label) {
+        *label = '\0';
+        label++;
+        while(isspace(*label)) label++;
+        char *pos;
+        if((pos=strchr(label, '\n')) != NULL) *pos = '\0';
+        printf("====== label /%s/\n", label);
+    }
+
     ret = parse_argv_string(args, &pslot->ssh_argc, (const char ***) &pslot->ssh_argv);
     if (ret != 0 || pslot->ssh_argc == 0) {
         eprintf("failed to parse ssh options \"%s\" into args array", args);
@@ -70,6 +82,7 @@ new_slot(const char *args) {
         return NULL;
     }
     strcpy(pslot->host, pslot->ssh_argv[pslot->ssh_argc - 1]);
+    if(label) strcpy(pslot->label, label);
     pslot->out_buff = new_emptystring();
     pslot->err_buff = new_emptystring();
     pslot->exit_code = -1;
