@@ -41,7 +41,7 @@ sigint_handler(int sig) {
 static const char *
 get_prompt() {
     if (stdout_isatty) {
-        return "$ " ANSI_COLOR_BOLD;
+        return "$ ";
     } else {
         return "$ ";
     }
@@ -49,9 +49,9 @@ get_prompt() {
 
 static void
 reset_prompt_color() {
-    if (stdout_isatty) {
-        printf(ANSI_COLOR_RESET);
-    }
+    // if (stdout_isatty) {
+    //     printf(ANSI_COLOR_RESET);
+    // }
 }
 
 static void
