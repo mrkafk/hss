@@ -203,6 +203,17 @@ int dup_argv(int argc, const char **argv,
 /* Code based on poptParseArgvString() from libpopt */
 int
 parse_argv_string(const char *s, int *argc_ptr, const char ***argv_ptr) {
+    char *label = NULL;
+    const char* delim = "#";
+    label = strpbrk(s, delim);
+    if (label) {
+        *label = '\0';
+        label++;
+        while(isspace(*label)) label++;
+        char *pos;
+        if((pos=strchr(label, '\n')) != NULL) *pos = '\0';
+        printf("====== label /%s/\n", label);
+    }
     const char *src;
     char quote = '\0';
     int argv_alloced = ARGV_ARRAY_GROW_DELTA;
