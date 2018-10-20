@@ -22,19 +22,35 @@ sigset_t osigmask;
 
 volatile int alive_children = 0;
 
+int str_all_whitespace(const char *s) {
+  while (*s != '\0') {
+    if (!isspace((unsigned char)*s))
+      return 0;
+    s++;
+  }
+  return 1;
+}
+
 static void
 print_line(struct slot *pslot, int io_type, sstring buf, void *data) {
     FILE *output = (FILE *) data;
     if (output == stdout && stdout_isatty) {
         if (io_type == STDOUT_FILENO) {
-            printf("[O] %s -> ", pslot->host);
+            if(pslot->label == NULL || str_all_whitespace(pslot->label))
+                printf("[O] %s -> ", pslot->host);
+            else
+                printf("[O] %s -> ", pslot->label);
         } else {
-            printf("[E] %s -> ", pslot->host);
+            if(pslot->label == NULL || str_all_whitespace(pslot->label))
+                printf("[E] %s -> ", pslot->host);
+            else
+                printf("[E] %s -> ", pslot->label);
         }
     }
     fwrite(buf, 1, string_length(buf), output);
     fflush(output);
 }
+
 
 static void
 save_string(struct slot *pslot, int io_type, sstring buf, void *data) {
