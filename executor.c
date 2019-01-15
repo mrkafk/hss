@@ -37,14 +37,14 @@ print_line(struct slot *pslot, int io_type, sstring buf, void *data) {
     if (output == stdout && stdout_isatty) {
         if (io_type == STDOUT_FILENO) {
             if(pslot->label == NULL || str_all_whitespace(pslot->label))
-                printf("[O] %s -> ", pslot->host);
+                printf("[O] %s:  ", pslot->host);
             else
-                printf("[O] %s -> ", pslot->label);
+                printf("[O] %s:  ", pslot->label);
         } else {
             if(pslot->label == NULL || str_all_whitespace(pslot->label))
-                printf("[E] %s -> ", pslot->host);
+                printf("[E] %s:  ", pslot->host);
             else
-                printf("[E] %s -> ", pslot->label);
+                printf("[E] %s:  ", pslot->label);
         }
     }
     fwrite(buf, 1, string_length(buf), output);
